@@ -666,6 +666,10 @@ set (Seastar_PRIVATE_CXX_FLAGS
   -Wno-array-bounds # Disabled because of https://gcc.gnu.org/bugzilla/show_bug.cgi?id=93437
   -Wno-error=deprecated-declarations)
 
+if (Seastar_CXX_FLAGS)
+  list (APPEND Seastar_PRIVATE_CXX_FLAGS ${Seastar_CXX_FLAGS})
+endif ()
+
 if (Seastar_COMPRESS_DEBUG)
   # -gz doesn't imply -g, so it is safe to add it regardless of debug
   # info being enabled.
@@ -785,10 +789,6 @@ endif ()
 if (Seastar_ALLOC_PAGE_SIZE)
   target_compile_definitions (seastar
     PUBLIC SEASTAR_OVERRIDE_ALLOCATOR_PAGE_SIZE=${Seastar_ALLOC_PAGE_SIZE})
-endif ()
-
-if (Seastar_CXX_FLAGS)
-  list (APPEND Seastar_PRIVATE_CXX_FLAGS ${Seastar_CXX_FLAGS})
 endif ()
 
 # When using split dwarf --gdb-index is effectively required since
